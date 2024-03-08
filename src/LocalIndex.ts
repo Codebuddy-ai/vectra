@@ -350,7 +350,7 @@ export class LocalIndex {
             }
 
             // Save remaining metadata to disk
-            metadataFile = `${v4}.json`;
+            metadataFile = `${v4()}.json`;
             const metadataPath = path.join(this._folderPath, metadataFile);
             await fs.writeFile(metadataPath, JSON.stringify(item.metadata));
         } else if (item.metadata) {
