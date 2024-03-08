@@ -278,14 +278,18 @@ export class LocalIndex {
 
         // Load external metadata
         for (const item of top) {
-            if (item.item.metadataFile) {
-                const metadataPath = path.join(this._folderPath, item.item.metadataFile);
-                const metadata = await fs.readFile(metadataPath);
-                item.item.metadata = JSON.parse(metadata.toString());
-            }
+            await this.loadMetadata(item.item);
         }
 
         return top;
+    }
+
+    public async loadMetadata<TMetadata = Record<string,MetadataTypes>>(item: IndexItem<TMetadata>): Promise<void> {
+        if (item.metadataFile) {
+            const metadataPath = path.join(this._folderPath, item.metadataFile);
+            const metadata = await fs.readFile(metadataPath);
+            item.metadata = JSON.parse(metadata.toString());
+        }
     }
 
     /**
